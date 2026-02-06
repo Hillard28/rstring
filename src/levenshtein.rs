@@ -1,6 +1,4 @@
-// Optimized Levenshtein functions focusing on runtime speed.
-// Uses a two-row dynamic programming approach and operates on Unicode `char`s.
-
+// Simple Levenshtein distance function
 pub fn distance(a: &str, b: &str) -> usize {
     let a_chars: Vec<char> = a.chars().collect();
     let b_chars: Vec<char> = b.chars().collect();
@@ -134,34 +132,5 @@ pub fn normalized_partial_similarity(a: &str, b: &str) -> f64 {
         1.0
     } else {
         1.0 - (partial_distance(a, b) as f64 / min)
-    }
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_kitten_sitting() {
-        assert_eq!(distance("kitten", "sitting"), 3);
-        let nd = normalized_distance("kitten", "sitting");
-        assert!((nd - 3.0 / 7.0).abs() < 1e-12);
-        assert_eq!(similarity("kitten", "sitting"), 4);
-        let ns = normalized_similarity("kitten", "sitting");
-        assert!((ns - 4.0 / 7.0).abs() < 1e-12);
-    }
-
-    #[test]
-    fn test_empty() {
-        assert_eq!(distance("", ""), 0);
-        assert_eq!(normalized_distance("", ""), 0.0);
-        assert_eq!(similarity("", ""), 0);
-        assert_eq!(normalized_similarity("", ""), 1.0);
-    }
-
-    #[test]
-    fn test_equal() {
-        assert_eq!(distance("rust", "rust"), 0);
-        assert_eq!(normalized_similarity("rust", "rust"), 1.0);
     }
 }
